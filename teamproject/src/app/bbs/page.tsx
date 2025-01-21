@@ -1,10 +1,6 @@
 import Link from "next/link";
 import styles from './bbs.module.scss';
 
-interface HeaderProps {
-  title: string;
-}
-
 export default function bbs(){
   return (
     <div className={styles.bbs}>
