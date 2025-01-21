@@ -43,13 +43,13 @@ export default function Home() {
 
       <div className={styles.flexBox}>
         <section className={styles.shop}>
-          <Link href={"/inStore"}>
+          <Link href={"/InStore"}>
             <Image src={PenIcon} alt="PenIcon" className={styles.imageBox} />
             <h3 className={styles.title}>文房具購入</h3>
           </Link>
         </section>
         <section className={styles.search}>
-          <Link href={"/inStore"}>
+          <Link href={"/InStore"}>
             <Image src={SearchIcon} alt="SearchIcon" className={styles.imageBox} />
             <h3 className={styles.title}>店舗検索</h3>
           </Link>

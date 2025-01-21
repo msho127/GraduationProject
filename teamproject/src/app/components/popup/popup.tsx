@@ -18,7 +18,7 @@ const Popup: React.FC<PopupProps> = ({ closePopup }) => {
   useEffect(() => {
     const storedData = sessionStorage.getItem('qrData');
     if (storedData) {
-      router.push('/inStore'); // セッションデータがある場合に直接遷移
+      router.push('/InStore'); // セッションデータがある場合に直接遷移
     }
   }, [router]);
 

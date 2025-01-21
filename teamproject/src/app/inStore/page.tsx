@@ -18,7 +18,7 @@ interface Post {
   createdAt: Date | null;
 }
 
-export default function inStore() {
+export default function InStore() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [storeName, setStoreName] = useState<string>("店名取得中...");
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
