@@ -75,7 +75,7 @@ const Popup: React.FC<PopupProps> = ({ closePopup }) => {
   useEffect(() => {
     if (scanResult.rawValue) {
       sessionStorage.setItem('qrData', JSON.stringify(scanResult));
-      router.push('/inStore'); // 読み取り完了後に inStore ページへ移動
+      router.push('/InStore'); // 読み取り完了後に inStore ページへ移動
     }
   }, [scanResult, router]);
 

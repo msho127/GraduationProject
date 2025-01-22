@@ -34,10 +34,12 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ isOpen, onClose }) => {
   // 新しい投稿を追加する
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!author || !content || !storeId) return;
-
+    if (!author || !content || !storeId) {
+      console.warn('すべての項目を入力してください');
+      return;
+    }
     try {
-      const postsCollection = collection(db, `stores/${storeId}/posts`); // storeId のサブコレクションに追加
+      const postsCollection = collection(db, `stores/${storeId}/posts`);
       await addDoc(postsCollection, {
         author,
         content,
@@ -49,11 +51,8 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ isOpen, onClose }) => {
       console.error('投稿の追加に失敗しました:', err);
     }
   };
-
   return (
-    <div
-      className={`${styles.bottomSheet} ${isOpen ? styles.open : styles.closed}`}
-    >
+    <div className={`${styles.bottomSheet} ${isOpen ? styles.open : styles.closed}`}>
       <div className={styles.header}>
         <button onClick={onClose} className={styles.closeButton}>
           ×

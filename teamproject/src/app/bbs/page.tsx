@@ -4,7 +4,7 @@ import styles from './bbs.module.scss';
 export default function bbs(){
   return (
     <div className={styles.bbs}>
-      <Link href={"/inStore"} className={styles.backButton}>戻る</Link>
+      <Link href={"/InStore"} className={styles.backButton}>戻る</Link>
       <section className={styles.boardTitle}>
         <div className={styles.flexBox}>
           <h2>至急です！歴史の問題です。答えを教えてください。</h2>
