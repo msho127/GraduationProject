@@ -7,7 +7,7 @@ import { collection, doc, getDoc, query, orderBy, onSnapshot, Timestamp,} from "
 import db from "../../lib/firebase";
 import styles from "../inStore/inStore.module.scss";
 import Header from "../components/header/header";
-import BottomSheet from "../components/BottomSheet/page";
+import BottomSheet from "../components/BottomSheet/BottomSheet";
 
 import Board from "../../assets/board.svg";
 
