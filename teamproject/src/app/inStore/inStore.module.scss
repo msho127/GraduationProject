@@ -63,9 +63,10 @@
   font-size: 16px;
 }
 .pastQuestion{
-  width: 350px;
+  width: 340px;
   height: 100px;
   margin: auto;
+  padding: 5px;
   border-radius: 10px;
   background: #fff;
   box-shadow: 0px 0px 4px inset rgba($color: #000, $alpha: 0.25);
@@ -88,7 +89,10 @@
     .icon{
       width: 30px;
       height: 30px;
-      background: #BFBFBF;
+      background-image: url(../../assets/user.png);
+      background-position: center;
+      background-size: contain;
+      // background: #ff1212;
       border-radius: 15px;
     }
     .author{

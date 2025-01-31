@@ -153,7 +153,12 @@ export default function InStore() {
             <p>「吾輩は猫である」の続きを答えろ。</p>
           </div>
         </section>
-        <Link  rel="stylesheet" href={"/"} className={styles.leaving} onClick={() => sessionStorage.removeItem("qrData")} >
+        <Link
+          rel="stylesheet"
+          href={"/"}
+          className={styles.leaving}
+          onClick={() => sessionStorage.clear()}
+        >
           退出
         </Link>
         <Link rel="stylesheet" href={"/"} className={styles.back}>
