@@ -148,7 +148,10 @@ export default function InStore() {
         </section>
         <section>
           <h2 className={styles.pastQuestionText}>過去問</h2>
-          <div className={styles.pastQuestion}></div>
+          <div className={styles.pastQuestion}>
+            <h3>国語</h3>
+            <p>「吾輩は猫である」の続きを答えろ。</p>
+          </div>
         </section>
         <Link  rel="stylesheet" href={"/"} className={styles.leaving} onClick={() => sessionStorage.removeItem("qrData")} >
           退出
