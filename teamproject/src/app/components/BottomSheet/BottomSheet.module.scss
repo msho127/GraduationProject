@@ -21,7 +21,7 @@
     justify-content: space-between;
     align-items: center;
     .closeButton {
-      font-size: 18px;
+      font-size: 28px;
       background: none;
       border: none;
       cursor: pointer;
@@ -30,11 +30,10 @@
   }
 }
 
-
-.content {
+.content{
   margin-top: 16px;
   font-size: 16px;
-  .form{
+  form{
     display: block;
     width: 390px;
     height: 300px;
@@ -42,11 +41,15 @@
       width: 320px;
       height: 30px;
       margin: 10px 30px;
+      border:solid 1px #888;
+      border-bottom: 4px;
     }
     .textarea{
       width: 320px;
       height: 100px;
       margin: 10px 30px;
+      border:solid 1px #888;
+      border-radius: 4px;
     }
     .button{
       width: 120px;

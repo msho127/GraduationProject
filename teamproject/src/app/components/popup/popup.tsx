@@ -2,7 +2,7 @@
 
 import styles from './popup.module.scss';
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation'; // useRouter をインポート
+import { useRouter } from 'next/navigation';
 import { Scanner, IDetectedBarcode } from '@yudiel/react-qr-scanner';
 
 interface PopupProps {
@@ -22,7 +22,7 @@ const Popup: React.FC<PopupProps> = ({ closePopup }) => {
     }
   }, [router]);
 
-  // 1秒後にカメラを起動する処理
+  // 1秒後にカメラを起動
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsCameraReady(true);
@@ -81,7 +81,7 @@ const Popup: React.FC<PopupProps> = ({ closePopup }) => {
 
   return (
     <div className={styles.popup}>
-      <button onClick={closePopup}>Close</button>
+      <button onClick={closePopup} className={styles.closeBtn}>✕</button>
       <div className={styles.box}>
         <div className={styles.scanner}>
           {isCameraReady ? (
@@ -99,14 +99,14 @@ const Popup: React.FC<PopupProps> = ({ closePopup }) => {
               }}
             />
           ) : (
-            <p>カメラを準備中...</p> // カメラが起動するまでの表示
+            <p></p> // カメラが起動するまでの表示
           )}
         </div>
         {scanResult.rawValue && (
           <div>
-            <p>
+            {/* <p>
               <strong>内容:</strong> {scanResult.rawValue}
-            </p>
+            </p> */}
           </div>
         )}
         <div className={styles.moneyBox}>

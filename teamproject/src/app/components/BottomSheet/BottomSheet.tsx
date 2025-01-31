@@ -47,15 +47,9 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div
-      className={`${styles.bottomSheet} ${
-        isOpen ? styles.open : styles.closed
-      }`}
-    >
+    <div className={`${styles.bottomSheet} ${isOpen ? styles.open : styles.closed}`}>
       <div className={styles.header}>
-        <button onClick={onClose} className={styles.closeButton}>
-          ×
-        </button>
+        <button onClick={onClose} className={styles.closeButton}>×</button>
       </div>
       <div className={styles.content}>
         <form onSubmit={handleSubmit}>

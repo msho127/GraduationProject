@@ -21,5 +21,12 @@
     padding: 5px 0;
     font-size: 12px;
     text-align: center;
+    .link{
+      text-decoration: none;
+      p{
+        display: block;
+        color: #000;
+      }
+    }
   }
 }

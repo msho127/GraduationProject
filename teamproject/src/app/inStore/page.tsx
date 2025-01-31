@@ -103,7 +103,27 @@ export default function InStore() {
           <section>
             {posts.map((post) => (
               <div key={post.id} className={styles.post}>
-                <Link className={styles.flexBox} href="/bbs">
+                <Link
+                  className={styles.flexBox}
+                  href="/bbs"
+                  onClick={() => {
+                    const timeString = post.createdAt
+                      ? post.createdAt.toLocaleTimeString(undefined, {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })
+                      : "時間情報なし";
+
+                    sessionStorage.setItem(
+                      "selectedPost",
+                      JSON.stringify({
+                        author: post.author,
+                        content: post.content,
+                        time: timeString,
+                      })
+                    );
+                  }}
+                >
                   <div className={styles.icon}></div>
                   <div>
                     <p className={styles.author}>{post.author}</p>
@@ -111,7 +131,10 @@ export default function InStore() {
                   </div>
                   <small className={styles.timestamp}>
                     {post.createdAt
-                      ? post.createdAt.toLocaleString()
+                      ? post.createdAt.toLocaleTimeString(undefined, {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })
                       : "日付情報なし"}
                   </small>
                 </Link>
