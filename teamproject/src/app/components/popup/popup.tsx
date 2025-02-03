@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import styles from './popup.module.scss';
 import React, { useState, useEffect } from 'react';
@@ -12,13 +12,13 @@ interface PopupProps {
 const Popup: React.FC<PopupProps> = ({ closePopup }) => {
   const [scanResult, setScanResult] = useState({ format: '', rawValue: '' });
   const [isCameraReady, setIsCameraReady] = useState(false); // カメラ起動状態
-  const router = useRouter(); // useRouter フックを使用
+  const router = useRouter();
 
   // セッションストレージにデータが存在する場合、直接ページ遷移
   useEffect(() => {
     const storedData = sessionStorage.getItem('qrData');
     if (storedData) {
-      router.push('/InStore'); // セッションデータがある場合に直接遷移
+      router.push('/inStore'); // セッションデータがある場合に直接遷移
     }
   }, [router]);
 
@@ -75,7 +75,7 @@ const Popup: React.FC<PopupProps> = ({ closePopup }) => {
   useEffect(() => {
     if (scanResult.rawValue) {
       sessionStorage.setItem('qrData', JSON.stringify(scanResult));
-      router.push('/InStore'); // 読み取り完了後に inStore ページへ移動
+      router.push('/inStore'); // 読み取り完了後に inStore ページへ移動
     }
   }, [scanResult, router]);
 
