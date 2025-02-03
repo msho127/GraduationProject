@@ -23,14 +23,13 @@ export default function SignupForm() {
 
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      console.log("新規登録成功:", user);
+      console.log("新規登録成功:", userCredential.user);
       setSuccess("アカウント登録が完了しました！");
-    } catch (err: unknown) {
-      console.error("登録エラー:", err);
-      
-      if (typeof err === "object" && err !== null && "code" in err) {
-        const errorCode = (err as { code: string }).code;
+    } catch (error: unknown) {
+      console.error("登録エラー:", error);
+
+      if (typeof error === "object" && error !== null && "code" in error) {
+        const errorCode = (error as { code: string }).code;
 
         switch (errorCode) {
           case "auth/email-already-in-use":

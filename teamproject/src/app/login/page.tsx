@@ -1,7 +1,6 @@
 'use client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-
 import { auth } from "../../lib/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
@@ -17,29 +16,49 @@ export default function LoginForm() {
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      console.log('Logged in as:', user.email);
+      console.log('Logged in as:', userCredential.user.email);
 
       // ログイン成功後にプロフィールページへ遷移
       router.push('/');
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error('Login Error:', error.message);
-        setError(error.message);
+      console.error('Login Error:', error);
+
+      if (typeof error === "object" && error !== null && "code" in error) {
+        const errorCode = (error as { code: string }).code;
+
+        switch (errorCode) {
+          case "auth/invalid-email":
+            setError("無効なメールアドレスです。");
+            break;
+          case "auth/user-disabled":
+            setError("このアカウントは無効化されています。");
+            break;
+          case "auth/user-not-found":
+            setError("メールアドレスまたはパスワードが正しくありません。");
+            break;
+          case "auth/wrong-password":
+            setError("メールアドレスまたはパスワードが正しくありません。");
+            break;
+          default:
+            setError("ログインに失敗しました。再試行してください。");
+        }
       } else {
-        setError('予期しないエラーが発生しました');
+        setError("予期しないエラーが発生しました。");
       }
     }
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="flex flex-col items-center justify-center min-h-screen p-4">
+      <h1 className="text-2xl font-bold mb-4">ログイン</h1>
+      {error && <p className="text-red-500 mb-4">{error}</p>}
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
-          type="text"
+          type="email"
           placeholder="メールを入力してください"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          className="border p-2 rounded"
           required
         />
         <input
@@ -47,10 +66,10 @@ export default function LoginForm() {
           placeholder="パスワード"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className="border p-2 rounded"
           required
         />
-        {error && <p>{error}</p>}
-        <button type="submit">
+        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
           ログイン
         </button>
       </form>
