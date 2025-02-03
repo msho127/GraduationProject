@@ -26,17 +26,27 @@ export default function SignupForm() {
       const user = userCredential.user;
       console.log("新規登録成功:", user);
       setSuccess("アカウント登録が完了しました！");
-    } catch (err: any) {
-      console.error("登録エラー:", err.message);
-      // Firebase のエラーコードに基づいてメッセージを表示
-      if (err.code === "auth/email-already-in-use") {
-        setError("このメールアドレスはすでに登録されています。");
-      } else if (err.code === "auth/weak-password") {
-        setError("パスワードは6文字以上で入力してください。");
-      } else if (err.code === "auth/invalid-email") {
-        setError("無効なメールアドレス形式です。");
+    } catch (err: unknown) {
+      console.error("登録エラー:", err);
+      
+      if (typeof err === "object" && err !== null && "code" in err) {
+        const errorCode = (err as { code: string }).code;
+
+        switch (errorCode) {
+          case "auth/email-already-in-use":
+            setError("このメールアドレスはすでに登録されています。");
+            break;
+          case "auth/weak-password":
+            setError("パスワードは6文字以上で入力してください。");
+            break;
+          case "auth/invalid-email":
+            setError("無効なメールアドレス形式です。");
+            break;
+          default:
+            setError("登録に失敗しました。再試行してください。");
+        }
       } else {
-        setError(`登録エラー: ${err.message}`);
+        setError("予期しないエラーが発生しました。");
       }
     }
   };

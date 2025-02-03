@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { auth } from "../../lib/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
-
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,22 +16,24 @@ export default function LoginForm() {
     setError('');
 
     try {
-      // Firebase でログイン
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       console.log('Logged in as:', user.email);
 
       // ログイン成功後にプロフィールページへ遷移
       router.push('/');
-    } catch (error: any) {
-      console.error('Login Error:', error);
-      setError('ログインに失敗しました。メールアドレスとパスワードを確認してください。');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Login Error:', error.message);
+        setError(error.message);
+      } else {
+        setError('予期しないエラーが発生しました');
+      }
     }
   };
 
-
   return (
-    <div >
+    <div>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
