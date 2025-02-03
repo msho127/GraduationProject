@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { collection, doc, getDoc, query, orderBy, onSnapshot, Timestamp,} from "firebase/firestore";
+import { collection, doc, getDoc, query, orderBy, getDocs, Timestamp } from "firebase/firestore";
 import db from "../../lib/firebase";
 import styles from "../inStore/inStore.module.scss";
 import Header from "../components/header/header";
@@ -42,26 +42,25 @@ export default function InStore() {
                 console.log("取得した store データ:", storeData);
                 setStoreName(storeData.store || "店名不明");
 
-                // `posts` サブコレクションを取得
+                // `posts` サブコレクションを取得（getDocsに変更）
                 const postsQuery = query(
                   collection(storeDocRef, "posts"),
                   orderBy("createdAt", "desc")
                 );
 
-                onSnapshot(postsQuery, (snapshot) => {
-                  const posts = snapshot.docs.map((doc) => {
-                    const data = doc.data();
-                    return {
-                      id: doc.id,
-                      author: data.author || "匿名",
-                      content: data.content || "",
-                      createdAt: data.createdAt
-                        ? (data.createdAt as Timestamp).toDate()
-                        : null,
-                    };
-                  });
-                  setPosts(posts);
+                const querySnapshot = await getDocs(postsQuery);
+                const posts = querySnapshot.docs.map((doc) => {
+                  const data = doc.data();
+                  return {
+                    id: doc.id,
+                    author: data.author || "匿名",
+                    content: data.content || "",
+                    createdAt: data.createdAt
+                      ? (data.createdAt as Timestamp).toDate()
+                      : null,
+                  };
                 });
+                setPosts(posts);
               } else {
                 console.warn("指定された storeID のデータが見つかりません:", storeID);
                 setStoreName("該当データなし");
