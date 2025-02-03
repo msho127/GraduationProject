@@ -31,7 +31,7 @@ export default function Footer() {
             <p>通知</p>
           </li>
           <li>
-            <Link href={"/login"} className={styles.link}>
+            <Link href={"/"} className={styles.link}>
               <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="18.5" cy="18.5" r="18" stroke="#818181"/>
               <path d="M27.5833 28.6625V26.5042C27.5833 25.3593 27.1285 24.2613 26.319 23.4518C25.5095 22.6423 24.4115 22.1875 23.2667 22.1875H14.6333C13.4885 22.1875 12.3905 22.6423 11.581 23.4518C10.7714 24.2613 10.3167 25.3593 10.3167 26.5042V28.6625" stroke="#818181" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
