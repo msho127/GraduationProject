@@ -1,48 +1,43 @@
-"use client";
-
-import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+'use client';
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { auth } from "../../lib/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
-export default function SignupForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+export default function LoginForm() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const router = useRouter();
 
-  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
-
-    if (password !== confirmPassword) {
-      setError("パスワードが一致しません。");
-      return;
-    }
+    setError('');
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      console.log("新規登録成功:", userCredential.user);
-      setSuccess("アカウント登録が完了しました！");
-    } catch (error: unknown) {
-      console.error("登録エラー:", error);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log('Logged in as:', userCredential.user.email);
 
-      if (typeof error === "object" && error !== null && "code" in error) {
-        const errorCode = (error as { code: string }).code;
+      router.push('/');
+    } catch (error) {
+      console.error('Login Error:', error);
 
-        switch (errorCode) {
-          case "auth/email-already-in-use":
-            setError("このメールアドレスはすでに登録されています。");
-            break;
-          case "auth/weak-password":
-            setError("パスワードは6文字以上で入力してください。");
-            break;
+      // error を FirebaseError 型にキャスト
+      if (typeof error === 'object' && error !== null && 'code' in error) {
+        const firebaseError = error as { code: string };
+        switch (firebaseError.code) {
           case "auth/invalid-email":
-            setError("無効なメールアドレス形式です。");
+            setError("無効なメールアドレスです。");
+            break;
+          case "auth/user-disabled":
+            setError("このアカウントは無効化されています。");
+            break;
+          case "auth/user-not-found":
+          case "auth/wrong-password":
+            setError("メールアドレスまたはパスワードが正しくありません。");
             break;
           default:
-            setError("登録に失敗しました。再試行してください。");
+            setError("ログインに失敗しました。再試行してください。");
         }
       } else {
         setError("予期しないエラーが発生しました。");
@@ -52,13 +47,12 @@ export default function SignupForm() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      <h1 className="text-2xl font-bold mb-4">アカウント登録</h1>
+      <h1 className="text-2xl font-bold mb-4">ログイン</h1>
       {error && <p className="text-red-500 mb-4">{error}</p>}
-      {success && <p className="text-green-500 mb-4">{success}</p>}
-      <form onSubmit={handleSignup} className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="email"
-          placeholder="メールアドレス"
+          placeholder="メールを入力してください"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="border p-2 rounded"
@@ -72,16 +66,8 @@ export default function SignupForm() {
           className="border p-2 rounded"
           required
         />
-        <input
-          type="password"
-          placeholder="パスワード確認"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          className="border p-2 rounded"
-          required
-        />
         <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-          登録
+          ログイン
         </button>
       </form>
     </div>
