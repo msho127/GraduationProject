@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { auth } from "../../lib/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { FirebaseError } from "firebase/app"; // Firebase エラー型をインポート
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
@@ -17,16 +18,12 @@ export default function LoginForm() {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       console.log('Logged in as:', userCredential.user.email);
-
-      // ログイン成功後にプロフィールページへ遷移
       router.push('/');
-    } catch (error: unknown) {
+    } catch (error: unknown) { // unknown に変更
       console.error('Login Error:', error);
 
-      if (typeof error === "object" && error !== null && "code" in error) {
-        const errorCode = (error as { code: string }).code;
-
-        switch (errorCode) {
+      if (error instanceof FirebaseError) { // Firebase のエラー型にキャスト
+        switch (error.code) {
           case "auth/invalid-email":
             setError("無効なメールアドレスです。");
             break;
@@ -34,8 +31,6 @@ export default function LoginForm() {
             setError("このアカウントは無効化されています。");
             break;
           case "auth/user-not-found":
-            setError("メールアドレスまたはパスワードが正しくありません。");
-            break;
           case "auth/wrong-password":
             setError("メールアドレスまたはパスワードが正しくありません。");
             break;
