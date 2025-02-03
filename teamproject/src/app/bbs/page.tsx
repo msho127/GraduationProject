@@ -19,7 +19,7 @@ export default function BBSPage() {
 
   return (
     <div className={styles.bbs}>
-      <Link href={"/inStore"} className={styles.backButton}>戻る</Link>
+      <Link href={"/InStore"} className={styles.backButton}>戻る</Link>
       <section className={styles.boardTitle}>
         <div className={styles.flexBox}>
           <h2>{selectedPost.author}</h2>
